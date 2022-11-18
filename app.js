@@ -9,8 +9,7 @@ app.use(bodyParser.urlencoded({extended: true}));
 // EXPRESS STATIC
 app.use(express.static("public"));
 //HTTPS REQUESTS
-const https = require("node:https");
-// const request = require("node:http");
+const https = require("https");
 
 app.get("/", (req, res)=> {
     res.sendFile(__dirname + "/signup.html");
