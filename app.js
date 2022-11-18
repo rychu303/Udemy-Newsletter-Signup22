@@ -1,6 +1,8 @@
 //EXPRESS
 const express = require("express");
 const app = express();
+//.DOTENV
+require("dotenv").config();
 //BODY PARSER
 const bodyParser = require("body-parser");
 app.use(bodyParser.urlencoded({extended: true}));
@@ -18,6 +20,9 @@ app.post("/", (req, res)=> {
     const firstName = req.body.firstName;
     const lastName = req.body.lastName;
     const email = req.body.emailAddress;
+    const MCAPI_KEY = process.env.API_KEY;
+    const MCLIST_ID = process.env.LIST_ID;
+    const MCAPI_SERVER = process.env.API_SERVER;
 
     const data = {
         members: [
@@ -37,10 +42,10 @@ app.post("/", (req, res)=> {
 
     let jsonData = JSON.stringify(data);
 
-    const url = "https://us9.api.mailchimp.com/3.0/lists/1eb35a4bd3";
+    const url = "https://" + MCAPI_SERVER + ".api.mailchimp.com/3.0/lists/" + MCLIST_ID;
     const options = {
         method: "POST",
-        auth: "rchungUserName:04daf929724a0f839f8e4d4898cc08ab-us9"
+        auth: "rchungUserName:" + MCAPI_KEY
     }
 
     const mcRequest = https.request(url, options, function(response) {
@@ -70,6 +75,3 @@ app.post("/failure", (req, res) => {
 app.listen(process.env.PORT || 3000, () => {
     console.log("Server is running on port 3000");
 });
-
-//MAILCHIMP API KEY: 04daf929724a0f839f8e4d4898cc08ab-us9
-//MAILCHIMP LIST/AUDIENCE ID: 1eb35a4bd3
